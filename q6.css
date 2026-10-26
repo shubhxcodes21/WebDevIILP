@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #222;
+  background-color: #f4f4f4;
+  line-height: 1.5;
+}
+
+header {
+  background-color: #111;
+  color: #fff;
+  padding: 15px 30px;
+  border-bottom: 4px solid #ff7a00;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.brand img {
+  height: 60px;
+  width: auto;
+}
+
+.brand h1 {
+  font-size: 22px;
+  margin: 0;
+  color: #ff7a00;
+}
+
+nav {
+  margin-top: 12px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #ff7a00;
+  text-decoration: underline;
+}
+
+main {
+  max-width: 900px;
+  margin: 25px auto;
+  padding: 0 20px;
+}
+
+.page {
+  display: none;
+  background-color: #fff;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-top: 4px solid #ff7a00;
+}
+
+.page:target {
+  display: block;
+}
+
+main:not(:has(:target)) #home {
+  display: block;
+}
+
+h2,
+h3 {
+  color: #111;
+}
+
+a {
+  color: #d96500;
+}
+
+form {
+  max-width: 400px;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #999;
+}
+
+input:focus {
+  outline: 2px solid #ff7a00;
+  border-color: #ff7a00;
+}
+
+button,
+.button {
+  display: inline-block;
+  background-color: #ff7a00;
+  color: #111;
+  padding: 8px 16px;
+  margin-top: 15px;
+  border: none;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover,
+.button:hover {
+  background-color: #111;
+  color: #ff7a00;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #111;
+  color: #ff7a00;
+}
+
+td .button {
+  margin-top: 0;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #111;
+  color: #fff;
+  font-size: 14px;
+  border-top: 4px solid #ff7a00;
+}
