@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simple E‑Commerce — WebDevIILP</title>
+  <meta name="description" content="A simple HTML/CSS/JS e-commerce demo with product listing and cart saved to localStorage.">
+  <style>
+    :root{--primary:#0d6efd;--bg:#f6f7fb;--card:#fff;--muted:#6c757d}
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); margin:0;color:#222}
+    header{background:#fff;border-bottom:1px solid #e6e9ef;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;position:sticky;top:0;z-index:20}
+    .brand{display:flex;align-items:center;gap:.75rem;font-weight:700;color:var(--primary)}
+    .brand .logo{width:40px;height:40px;background:linear-gradient(45deg,var(--primary),#6610f2);border-radius:8px;display:inline-grid;place-items:center;color:#fff;font-weight:700}
+    .search{flex:1;max-width:640px}
+    .search input{width:100%;padding:.6rem .8rem;border-radius:8px;border:1px solid #dfe6f0}
+    .actions{display:flex;align-items:center;gap:.5rem}
+    .btn{background:var(--primary);color:#fff;padding:.55rem .8rem;border-radius:8px;border:none;cursor:pointer}
+    .btn.secondary{background:#fff;color:var(--primary);border:1px solid #e6e9ef}
+
+    main{padding:2rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem}
+    .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(33,47,70,0.06);display:flex;flex-direction:column}
+    .card img{width:100%;height:160px;object-fit:cover}
+    .card-body{padding:1rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+    .card h3{margin:0;font-size:1rem}
+    .price-row{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+    .price{font-weight:700;color:var(--primary)}
+    .muted{color:var(--muted);font-size:.9rem}
+
+    /* Cart drawer */
+    .cart-drawer{position:fixed;right:0;top:0;bottom:0;width:360px;transform:translateX(110%);transition:transform .25s ease-in-out;background:#fff;box-shadow:-20px 0 40px rgba(15,23,42,0.12);z-index:40;display:flex;flex-direction:column}
+    .cart-drawer.open{transform:translateX(0)}
+    .cart-head{padding:1rem;border-bottom:1px solid #eef2f7;display:flex;align-items:center;justify-content:space-between}
+    .cart-items{padding:1rem;overflow:auto;flex:1}
+    .cart-item{display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px dashed #f1f3f6}
+    .cart-item img{width:64px;height:64px;object-fit:cover;border-radius:8px}
+    .qty{display:flex;align-items:center;gap:.5rem}
+    .qty button{padding:.25rem .45rem;border:1px solid #e6e9ef;background:#fff;border-radius:6px}
+    .cart-footer{padding:1rem;border-top:1px solid #eef2f7}
+
+    /* small screens */
+    @media (max-width:600px){
+      .cart-drawer{width:100%}
+      header{padding:0.6rem 1rem}
+      main{padding:1rem}
+    }
+
+    /* utility */
+    .center{display:grid;place-items:center}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">SD</div>
+    <div>
+      <div>ShopDemo</div>
+      <div style="font-size:.75rem;color:var(--muted);">E‑commerce demo</div>
+    </div>
+  </div>
+
+  <div class="search">
+    <input id="search" placeholder="Search products, e.g. chair, mug..." />
+  </div>
+
+  <div class="actions">
+    <button id="view-cart" class="btn">Cart (<span id="cart-count">0</span>)</button>
+  </div>
+</header>
+
+<main>
+  <section style="margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem">
+    <h2 style="margin:0">Featured Products</h2>
+    <div class="muted">Demo store • No real payments</div>
+  </section>
+
+  <section id="products" class="grid"></section>
+
+  <div id="empty" class="center" style="padding:4rem;display:none">
+    <div style="text-align:center">
+      <h3>No products found</h3>
+      <p class="muted">Try a different search or clear filters.</p>
+    </div>
+  </div>
+</main>
+
+<!-- Cart drawer -->
+<aside id="cart" class="cart-drawer" aria-hidden="true">
+  <div class="cart-head">
+    <div>
+      <strong>Your Cart</strong>
+      <div class="muted" id="cart-items-count">0 items</div>
+    </div>
+    <div>
+      <button id="close-cart" class="btn secondary">Close</button>
+    </div>
+  </div>
+  <div class="cart-items" id="cart-list"></div>
+  <div class="cart-footer">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+      <div class="muted">Subtotal</div>
+      <div style="font-weight:700">$<span id="subtotal">0.00</span></div>
+    </div>
+    <div style="display:flex;gap:.5rem">
+      <button id="checkout" class="btn" style="flex:1">Checkout</button>
+      <button id="clear-cart" class="btn secondary">Clear</button>
+    </div>
+  </div>
+</aside>
+
+<script>
+// Sample product data
+const products = [
+  {id:1,title:'Minimal Ceramic Mug',price:12.99,tag:'mug',img:'https://picsum.photos/seed/mug/800/600',desc:'Handmade ceramic mug with matte finish.'},
+  {id:2,title:'Oak Side Table',price:129.00,tag:'furniture',img:'https://picsum.photos/seed/table/800/600',desc:'Compact side table in polished oak.'},
+  {id:3,title:'Comfort Cotton T-Shirt',price:24.5,tag:'clothing',img:'https://picsum.photos/seed/tshirt/800/600',desc:'Breathable unisex cotton tee.'},
+  {id:4,title:'Wireless Headphones',price:89.99,tag:'electronics',img:'https://picsum.photos/seed/headphones/800/600',desc:'Noise-isolating over-ear headphones.'},
+  {id:5,title:'Desk Plant — Ficus',price:18.0,tag:'plants',img:'https://picsum.photos/seed/plant/800/600',desc:'Low-maintenance indoor plant.'},
+  {id:6,title:'Travel Backpack',price:74.95,tag:'bags',img:'https://picsum.photos/seed/backpack/800/600',desc:'Water-resistant 20L backpack.'}
+];
+
+// Cart handling using localStorage
+const CART_KEY = 'webdevilp_cart_v1';
+let cart = JSON.parse(localStorage.getItem(CART_KEY) || '{}');
+
+function saveCart(){
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  renderCartCount();
+}
+
+function addToCart(id){
+  cart[id] = (cart[id]||0)+1;
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(id){
+  delete cart[id];
+  saveCart();
+  renderCart();
+}
+
+function changeQty(id, delta){
+  if(!cart[id]) return;
+  cart[id] = Math.max(0, cart[id]+delta);
+  if(cart[id] === 0) delete cart[id];
+  saveCart();
+  renderCart();
+}
+
+function clearCart(){ cart = {}; saveCart(); renderCart(); }
+
+function cartItems(){
+  return Object.keys(cart).map(k=>({product:products.find(p=>p.id==k),qty:cart[k]})).filter(x=>x.product);
+}
+
+function subtotal(){
+  return cartItems().reduce((s, it)=>s + (it.product.price * it.qty), 0);
+}
+
+// Render products
+const productsEl = document.getElementById('products');
+const emptyEl = document.getElementById('empty');
+function renderProducts(list = products){
+  productsEl.innerHTML = '';
+  if(list.length === 0){ emptyEl.style.display='block'; return; } else { emptyEl.style.display='none'; }
+  list.forEach(p=>{
+    const el = document.createElement('article'); el.className='card';
+    el.innerHTML = `
+      <img loading="lazy" src="${p.img}" alt="${p.title}">
+      <div class="card-body">
+        <h3>${p.title}</h3>
+        <div class="muted">${p.desc}</div>
+        <div class="price-row">
+          <div class="price">$${p.price.toFixed(2)}</div>
+          <button class="btn" data-id="${p.id}">Add</button>
+        </div>
+      </div>
+    `;
+    productsEl.appendChild(el);
+  });
+}
+
+// Render cart drawer
+const cartDrawer = document.getElementById('cart');
+const cartList = document.getElementById('cart-list');
+const subtotalEl = document.getElementById('subtotal');
+const cartCountEl = document.getElementById('cart-count');
+const cartItemsCountEl = document.getElementById('cart-items-count');
+
+function renderCartCount(){
+  const count = Object.values(cart).reduce((s,n)=>s+n,0);
+  cartCountEl.textContent = count;
+}
+
+function renderCart(){
+  const items = cartItems();
+  cartList.innerHTML = '';
+  if(items.length === 0){
+    cartList.innerHTML = '<div class="center" style="padding:2rem;color:var(--muted)">Your cart is empty</div>';
+  } else {
+    items.forEach(it=>{
+      const row = document.createElement('div'); row.className='cart-item';
+      row.innerHTML = `
+        <img src="${it.product.img}" alt="${it.product.title}">
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <strong>${it.product.title}</strong>
+            <div class="muted">$${it.product.price.toFixed(2)}</div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div class="qty">
+              <button data-action="dec" data-id="${it.product.id}">-</button>
+              <div style="min-width:28px;text-align:center">${it.qty}</div>
+              <button data-action="inc" data-id="${it.product.id}">+</button>
+            </div>
+            <button data-action="remove" data-id="${it.product.id}" class="btn secondary">Remove</button>
+          </div>
+        </div>
+      `;
+      cartList.appendChild(row);
+    })
+  }
+  subtotalEl.textContent = subtotal().toFixed(2);
+  cartItemsCountEl.textContent = `${items.length} item${items.length!==1?'s':''}`;
+  renderCartCount();
+}
+
+// Event delegation
+document.addEventListener('click', (e)=>{
+  const add = e.target.closest('button[data-id]');
+  if(add && add.dataset.id){ addToCart(add.dataset.id); }
+  const viewCart = e.target.closest('#view-cart');
+  if(viewCart){ openCart(); }
+  const closeCart = e.target.closest('#close-cart');
+  if(closeCart){ closeCartFn(); }
+  const clearBtn = e.target.closest('#clear-cart');
+  if(clearBtn){ if(confirm('Clear cart?')) clearCart(); }
+  const checkout = e.target.closest('#checkout');
+  if(checkout){ alert('This is a demo. No payment is processed.\nOrder total: $'+subtotal().toFixed(2)); }
+
+  const cartAction = e.target.closest('[data-action]');
+  if(cartAction){
+    const id = cartAction.dataset.id;
+    if(cartAction.dataset.action === 'inc') changeQty(id,1);
+    if(cartAction.dataset.action === 'dec') changeQty(id,-1);
+    if(cartAction.dataset.action === 'remove') removeFromCart(id);
+  }
+});
+
+// Search
+const searchInput = document.getElementById('search');
+searchInput.addEventListener('input', ()=>{     
+  const q = searchInput.value.trim().toLowerCase();
+  if(!q) return renderProducts(products);
+  const filtered = products.filter(p => (p.title+p.desc+p.tag).toLowerCase().includes(q));
+  renderProducts(filtered);
+});
+
+// drawer functions
+function openCart(){ cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden','false'); }
+function closeCartFn(){ cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden','true'); }
+
+// init
+renderProducts();
+renderCart();
+</script>
+</body>
+</html>

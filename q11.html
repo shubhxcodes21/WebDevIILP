@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Box Model Practice</title>
+  <style>
+    body {
+      margin: 0;               /* boxes start at the very top-left */
+    }
+
+    /* Box 1: teal, 10px border, 20px padding, has text */
+    .box1 {
+      width: 190px;
+      height: 190px;
+      padding: 20px;
+      border: 10px solid black;
+      background-color: cadetblue;
+      font-size: 18px;
+    }
+
+    /* Box 2: yellow, 20px top/bottom border, 10px left/right border */
+    .box2 {
+      width: 210px;
+      height: 210px;
+      border-style: solid;
+      border-color: black;
+      border-width: 20px 10px;   /* top/bottom  left/right */
+      background-color: gold;
+      margin-left: 250px;        /* box 1's total width, so corners touch */
+    }
+
+    /* Box 3: red, 10px border */
+    .box3 {
+      width: 190px;
+      height: 190px;
+      border: 10px solid black;
+      background-color: indianred;
+      margin-left: 40px;         /* 250px - 210px, so its top-right corner touches box 2 */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box1">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at sapien
+    porttitor urna elementum lacinia. In id magna pulvinar, ultricies lorem id,
+    vehicula elit. Aliquam eu luctus nisl, vitae pellentesque magna. Phasellus
+    dolor metus, laoreet ac convallis sit amet, efficitur sed dolor.
+  </div>
+
+  <div class="box2"></div>
+
+  <div class="box3"></div>
+
+</body>
+</html>
