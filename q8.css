@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #d8d8da;
+    margin: 0;
+    background-color: #0b0b0c;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='8' fill='%230b0b0c'/%3E%3Crect width='4' height='4' fill='%23151517'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%23151517'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+}
+
+h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 42px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+}
+
+h2 {
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 26px;
+    color: #c9a96e;
+    border-bottom: 3px solid #c9a96e;
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+#banner {
+    padding: 60px 20px;
+    background-color: #050505;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='500' preserveAspectRatio='none' viewBox='0 0 1200 500'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23000000'/%3E%3Cstop offset='0.75' stop-color='%23232326'/%3E%3Cstop offset='1' stop-color='%23050505'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23c9a96e' stop-opacity='0'/%3E%3Cstop offset='0.5' stop-color='%23c9a96e'/%3E%3Cstop offset='1' stop-color='%23c9a96e' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='500' fill='url(%23a)'/%3E%3Crect y='375' width='1200' height='2' fill='url(%23b)'/%3E%3Cpath d='M700 0 L900 0 L520 500 L420 500 Z' fill='%23ffffff' fill-opacity='0.04'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #c9a96e;
+}
+
+#banner p {
+    color: #c9a96e;
+    text-align: center;
+    font-style: italic;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+.card {
+    background-color: #17130f;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M0 16 L16 0 L32 16 L16 32 Z' fill='none' stroke='%23c9a96e' stroke-opacity='0.2' stroke-width='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    border: 1px solid #3a3226;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+}
+
+.photo-box {
+    padding: 40px 20px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #000000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200' preserveAspectRatio='none'%3E%3Cdefs%3E%3CradialGradient id='r' cx='0.5' cy='1' r='0.9'%3E%3Cstop offset='0' stop-color='%23c9a96e' stop-opacity='0.45'/%3E%3Cstop offset='1' stop-color='%23000000' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='300' height='200' fill='%23000000'/%3E%3Crect width='300' height='200' fill='url(%23r)'/%3E%3Ccircle cx='250' cy='150' r='70' fill='none' stroke='%23c9a96e' stroke-opacity='0.35'/%3E%3Ccircle cx='250' cy='150' r='45' fill='none' stroke='%23ffffff' stroke-opacity='0.12'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.photo-box p {
+    color: #ffffff;
+    font-family: "Brush Script MT", cursive;
+    font-size: 30px;
+    margin: 0;
+}
+
+.highlight {
+    color: #c9a96e;
+    font-weight: bold;
+}
+
+.code-text {
+    font-family: "Courier New", monospace;
+    background-color: #26262a;
+    padding: 2px 6px;
+    color: #e6c98f;
+}
+
+.big-serif {
+    font-family: "Times New Roman", serif;
+    font-size: 22px;
+    font-style: italic;
+    color: #e6e1d8;
+}
+
+.underlined {
+    text-decoration: underline;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #c9a96e;
+}
+
+ul li {
+    color: #d8d8da;
+    margin-bottom: 6px;
+}
+
+a {
+    color: #c9a96e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #000000;
+    background-color: #c9a96e;
+}
+
+#footer {
+    text-align: center;
+    padding: 20px;
+    color: #ffffff;
+    background-color: #000000;
+    border-top: 1px solid #c9a96e;
+}

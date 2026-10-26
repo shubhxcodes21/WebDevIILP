@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS Styles Demo</title>
+<link rel="stylesheet" href="q8.css">
+</head>
+<body>
+
+<div id="banner">
+    <h1>My CSS Styles Page</h1>
+    <p>Selectors, fonts, colours and background images</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Different Fonts</h2>
+        <p>This is normal paragraph text using the <span class="highlight">p selector</span>.</p>
+        <p class="big-serif">This line uses a serif, italic, larger font.</p>
+        <p>Code style: <span class="code-text">font-family: "Courier New", monospace;</span></p>
+        <p class="underlined">Underlined uppercase text</p>
+    </div>
+
+    <div class="card">
+        <h2>Single Element Background</h2>
+        <div class="photo-box">
+            <p>This box has its own background image</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Styled List and Links</h2>
+        <ul>
+            <li>Element selector: <span class="code-text">h1, h2, p</span></li>
+            <li>Class selector: <span class="code-text">.card</span></li>
+            <li>ID selector: <span class="code-text">#banner</span></li>
+        </ul>
+        <p>Hover over this <a href="#">styled link</a> to see it change.</p>
+    </div>
+
+</div>
+
+<div id="footer">
+    <p>Footer styled with an ID selector</p>
+</div>
+
+</body>
+</html>
